@@ -1,9 +1,9 @@
 body {
-  background-color: #eee;
+  background-color: #A1B193;
 }
 
 #logo {
-	color: white;
+  color: white;
 }
 
 .jumbotron {
@@ -16,7 +16,31 @@ body {
 }
 
 .main-title {
-	color: white;
-	font-family: 'Handlee', sans-serif;
-	text-align: center;
+  color: white;
+  font-family: 'Handlee', sans-serif;
+  text-align: center;
+}
+
+.stores {
+  margin-top: 20px;
+}
+
+
+ th {
+  background-color: #AAB3A1;
+ }
+
+td {
+  background-color: #929A8A;
+  color: #eee;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #A1B193;
+}
+
+/*Search Stores Modal Styles*/
+
+.divide {
+  padding: 20px;
 }
