@@ -9,9 +9,6 @@ public class Store {
   private String city;
   private String state;
 
-  @Rule
-  public DatabaseRule database = new DatabaseRule();
-
   public int getId() {
     return id;
   }
@@ -28,43 +25,33 @@ public class Store {
     return state;
   }
 
-  public Brand(String name, String city, String state) {
+  public Store(String name, String city, String state) {
     this.name = name;
     this.city = city;
     this.state = state;
   }
 
   @Override
-  public boolean equals(Object otherBrand) {
-    if(!(otherBrand instanceof Brand)) {
+  public boolean equals(Object otherStore) {
+    if(!(otherStore instanceof Store)) {
       return false;
     } else {
-      Brand newBrand = (Brand) otherBrand;
-      return this.getName().equals(newBrand.getName()) &&
-             this.getId() == newBrand.getId();
+      Store newStore = (Store) otherStore;
+      return this.getName().equals(newStore.getName()) &&
+             this.getId() == newStore.getId();
     }
   }
 
-  public static List<Brand> all() {
-    String sql = "SELECT * FROM brands;";
+  public static List<Store> all() {
+    String sql = "SELECT * FROM stores;";
     try (Connection con = DB.sql2o.open()) {
-      return con.createQuery(sql).executeAndFetch(Brand.class);
+      return con.createQuery(sql).executeAndFetch(Store.class);
     }
   }
-
-  // public static void editBrandName(String name) {
-  //   try(Connection con = DB.sql2o.open()) {
-  //     String sql = "UPDATE brands SET name = :name WHERE id = :id";
-  //     con.createQuery(sql)
-  //     .addParameter("description", description)
-  //     .addParameter("id", id)
-  //     .executeUpdate();
-  //   }
-  // }
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO brands (name, city, state) VALUES (:name, :city, :state);";
+      String sql = "INSERT INTO stores (name, city, state) VALUES (:name, :city, :state);";
       this.id = (int) con.createQuery(sql, true)
       .addParameter("name", this.name)
       .addParameter("city", this.city)
@@ -74,15 +61,38 @@ public class Store {
     }
   }
 
-  public static Brand find(int id) {
+   public static Store find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM brands WHERE id=:id";
-      Brand brand = con.createQuery(sql)
+      String sql = "SELECT * FROM stores WHERE id=:id";
+      Store store = con.createQuery(sql)
         .addParameter("id", id)
-        .executeAndFetchFirst(Brand.class);
-      return brand;
+        .executeAndFetchFirst(Store.class);
+      return store;
     }
   }
+
+  public void editStoreName(String name) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE stores SET name = :name WHERE id = :id";
+      con.createQuery(sql)
+      .addParameter("name", name)
+      .addParameter("id", id)
+      .executeUpdate();
+    }
+  }
+
+  public void delete() {
+  try(Connection con = DB.sql2o.open()) {
+    String deleteQuery = "DELETE FROM stores WHERE id=:id";
+    con.createQuery(deleteQuery)
+      .addParameter("id", id)
+      .executeUpdate();
+    String joinDeleteQuery = "DELETE FROM brands_stores WHERE store_id=:storeId";
+    con.createQuery(joinDeleteQuery)
+      .addParameter("storeId", this.getId())
+      .executeUpdate();
+  }
+}
 
   public void addBrand(Brand brand) {
     try (Connection con = DB.sql2o.open()) {
@@ -112,16 +122,5 @@ public class Store {
     }
   }
 
-  public void delete() {
-    try(Connection con = DB.sql2o.open()) {
-      String deleteQuery = "DELETE FROM stores WHERE id=:id";
-      con.createQuery(deleteQuery)
-        .addParameter("id", id)
-        .executeUpdate();
-      String joinDeleteQuery = "DELETE FROM brands_stores WHERE store_id=:storeId";
-      con.createQuery(joinDeleteQuery)
-        .addParameter("storeId", this.getId())
-        .executeUpdate();
-    }
-  }
+
 }
