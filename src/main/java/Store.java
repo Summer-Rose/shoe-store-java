@@ -43,7 +43,7 @@ public class Store {
   }
 
   public static List<Store> all() {
-    String sql = "SELECT * FROM stores;";
+    String sql = "SELECT * FROM stores ORDER BY name;";
     try (Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Store.class);
     }
@@ -120,6 +120,28 @@ public class Store {
       }
       return brands;
     }
+  }
+
+  public static List<Store> searchByName(String name) {
+    String lowerCaseSearch = name.toLowerCase();
+    String sql = "SELECT * FROM stores WHERE LOWER (stores.name) LIKE '%" + lowerCaseSearch + "%' ORDER BY name";
+    List<Store> storeResults;
+    try (Connection con = DB.sql2o.open()) {
+      storeResults = con.createQuery(sql)
+        .executeAndFetch(Store.class);
+    }
+    return storeResults;
+  }
+
+  public static List<Store> searchByState(String state) {
+    String lowerCaseSearch = state.toLowerCase();
+    String sql = "SELECT * FROM stores WHERE LOWER (stores.state) LIKE '%" + lowerCaseSearch + "%' ORDER BY name";
+    List<Store> storeResults;
+    try (Connection con = DB.sql2o.open()) {
+      storeResults = con.createQuery(sql)
+        .executeAndFetch(Store.class);
+    }
+    return storeResults;
   }
 
 
