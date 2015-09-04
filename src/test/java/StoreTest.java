@@ -80,5 +80,20 @@ public class StoreTest {
     assertEquals(myStore.getBrands().size(), 1);
   }
 
-  
+  @Test
+  public void searchByName_filtersStoresByName() {
+    Store myStore = new Store("Target", "Tacoma", "WA");
+    myStore.save();
+    List searchResults = Store.searchByName("TaR");
+    assertTrue(myStore.equals(searchResults.get(0)));
+  }
+
+  @Test
+  public void searchByState_filtersStoresByState() {
+    Store myStore = new Store("Target", "Tacoma", "WA");
+    myStore.save();
+    List searchResults = Store.searchByState("WA");
+    assertTrue(myStore.equals(searchResults.get(0)));
+  }
+
 }
