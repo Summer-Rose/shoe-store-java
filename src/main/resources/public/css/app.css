@@ -1,16 +1,3 @@
 body {
-  background-color: #ddd;
-}
-
-
-.add_category_buttons {
-  display:inline;
-}
-
-.add_category_buttons button{
-  margin-left: 15px;
-}
-
-.button-style{
-  margin-bottom:10px; 
+  background-color: #eee;
 }
