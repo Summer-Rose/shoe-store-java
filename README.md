@@ -5,15 +5,15 @@
 ##### Summer Brochtrup
 
 ## Description
-A website where users can add/remove courses and students, search for students by name, and add/remove students to courses.
+
 
 ## Setup
 
 Clone this repository:
 ```
 $ cd ~/Desktop
-$ git clone https://github.com/SummerBr/university-registrar-java.git
-$ cd university-registrar
+$ git clone https://github.com/SummerBr/shoe-store-java.git
+$ cd shoe-store-java
 ```
 
 Open terminal and run Postgres:
@@ -24,8 +24,8 @@ $ postgres
 Open a new tab in terminal by pressing ⌘t and create `registrar` database:
 ```
 $ psql
-$ CREATE DATABASE registrar;
-$ psql registrar < registrar.sql
+$ CREATE DATABASE shoe_store;
+$ psql shoe_stores < shoe_stores.sql
 ```
 
 Navigate back to the directory where this repository has been cloned and run gradle:
@@ -37,7 +37,7 @@ $ gradle run
 
 *{This is boilerplate legal language. Read through it, and if you like it, use it. There are other license agreements online, but you can generally copy and paste this.}*
 
-Copyright (c) 2015 Summer Brochtrup & Aimee Reiss
+Copyright (c) 2015 Summer Brochtrup
 
 This software is licensed under the MIT license.
 
