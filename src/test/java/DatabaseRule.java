@@ -5,7 +5,7 @@ public class DatabaseRule extends ExternalResource {
 
   protected void before() {
     DB.sql2o = new
-    Sql2o("jdbc:postgresql://localhost:5432/shoe_stores_test", null, null);
+    Sql2o("jdbc:postgresql://localhost:5432/shoe_stores_test", "postgres", "welcome");
   }
 
   protected void after() {
@@ -15,7 +15,7 @@ public class DatabaseRule extends ExternalResource {
       String deleteBrandsStoresQuery = "DELETE FROM brands_stores *;";
       con.createQuery(deleteBrandsQuery).executeUpdate();
       con.createQuery(deleteStoresQuery).executeUpdate();
-      con.createQuery(deleteBrandsStroresQuery).executeUpdate();
+      con.createQuery(deleteBrandsStoresQuery).executeUpdate();
     }
   }
 }
