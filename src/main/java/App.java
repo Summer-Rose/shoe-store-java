@@ -28,7 +28,6 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-
     post("/add-store", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String name = request.queryParams("name");
@@ -40,6 +39,23 @@ public class App {
       return null;
     });
 
+    get("/stores/search-by-name", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String name = request.queryParams("name");
+      List<Store> nameResults = Store.searchByName(name);
+      model.put("nameResults", nameResults);
+      model.put("template", "templates/store-search-by-name.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-    }
+    get("/stores/search-by-state", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String state = request.queryParams("state");
+      List<Store> stateResults = Store.searchByState(state);
+      model.put("stateResults", stateResults);
+      model.put("template", "templates/store-search-by-state.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+  }
 }
