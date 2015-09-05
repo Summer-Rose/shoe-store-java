@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script>
+            $( document ).ready(function() {
+              $('#editStore').modal('show')
+            });
+        </script>
+        <title id="logo">Shoe Locator NW</title>
+        <link rel='stylesheet' href="/css/bootstrap.min.css">
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+        <link href='https://fonts.googleapis.com/css?family=Patrick+Hand|Handlee' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/css/app.css" type="text/css">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Shoe Locator NW</a>
+                </div>
+
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Stores<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/stores">View/Find Stores</a></li>
+                            <li><a href="#">Add A Store</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Brands<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">View/Find Brands</a></li>
+                            <li><a href="#">Add A Brand</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <form action="/" class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" id="main-search" name="main-search" class="form-control" placeholder="Search Site">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+        <div class="container">
+
+
+<div class="jumbotron">
+  <div class="main-title">
+    <h1>Find a Store</h1>
+  </div>
+</div>
+
+<button type="button" class="btn btn-default btn-sm btn-inline" data-toggle="modal" data-target="#addStore">
+  Add Store
+</button>
+<button type="button" class="btn btn-default btn-sm btn-inline" data-toggle="modal" data-target="#searchStores">
+  Search Stores
+</button>
+<!--Add Store Modal-->
+<div class="modal fade" id="addStore" tabindex="-3" role="dialog" aria-labelledby="addStore">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Store</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline" action="/add-store" method="post">
+          <div class="form-group">
+            <label class="sr-only" for="name">Store Name</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Store Name" required>
+          </div>
+          <div class="form-group">
+            <label class="sr-only" for="city">City</label>
+            <input type="text" class="form-control" name="city" id="city" placeholder="City" required>
+          </div>
+          <div class="form-group">
+            <select name="state" required>
+              <option value="OR">OR</option>
+              <option value="WA">WA</option>
+              <option value="ID">ID</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default">Add Store</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Search Modal-->
+<div class="modal fade" id="searchStores" tabindex="-3" role="dialog" aria-labelledby="searchStores">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Search Stores</h4>
+      </div>
+      <div class="modal-body row-fluid">
+
+        <div>
+        <form class="form-inline" action="/stores/search-by-name" method="get">
+          <div class="form-group">
+            <label for="name">Search By Name</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Store Name" required>
+          </div>
+          <button type="submit" class="btn btn-default">Search</button>
+        </form>
+        </div>
+        <h6 class="divide">------OR------</h6>
+        <div>
+        <form class="form-inline" action="/stores/search-by-state" method="get">
+          <div class="form-group">
+            <label for="state">Search By State&nbsp;</label>
+            <select name="state" required>
+              <option value="OR">OR</option>
+              <option value="WA">WA</option>
+              <option value="ID">ID</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default btn-sm">Search</button>
+        </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!--Edit modal-->
+#if ($store)
+<div class="modal fade" id="editStore" tabindex="-3" role="dialog" aria-labelledby="editStore" show="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Store</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline" action="/store/submit-update/$store.getId()" method="post">
+          <div class="form-group">
+            <label class="sr-only" for="name">Store Name</label>
+            <input type="text" class="form-control" name="name" id="name" value="$store.getName()"required>
+          </div>
+          <div class="form-group">
+            <label class="sr-only" for="city">City</label>
+            <input type="text" class="form-control" name="city" id="city" value="$store.getCity()" required>
+          </div>
+          <div class="form-group">
+            <select name="state" value="$store.getState()" required>
+              <option value="OR">OR</option>
+              <option value="WA">WA</option>
+              <option value="ID">ID</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default">Submit Edits</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+#end
+<table class="table table-hover table-bordered stores">
+  <thead>
+    <tr>
+      <th>#&nbsp;<a href="/stores/order-by-id"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></th>
+      <th>Store Name&nbsp;<a href="/stores"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></th>
+      <th>City&nbsp;<a href="/stores/order-by-city"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></th>
+      <th>State&nbsp;<a href="/stores/order-by-state"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></th>
+      <th>Update</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($store in $stores)
+
+      <tr>
+        <td>$store.getId()</td>
+        <td>$store.getName()</td>
+        <td>$store.getCity()</td>
+        <td>$store.getState()</td>
+        <td>
+          <form action="store/edit/$store.getId()" data-toggle="modal" data-target="#editStore"><button><span class="glyphicon glyphicon-pencil icons" aria-hidden="true"></span></button></form>&nbsp;
+          <a href="/delete/store/$store.getId()"><span class="glyphicon glyphicon-trash icons" aria-hidden="true"></span></a>
+        </td>
+      </tr>
+    #end
+  </tbody>
+</table>
+
+
+        </div>
+    </body>
+</html>
