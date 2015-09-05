@@ -56,7 +56,7 @@
       <div class="modal-body row-fluid">
 
         <div>
-        <form class="form-inline" action="/search-stores" method="post">
+        <form class="form-inline" action="/stores/search-by-name" method="post">
           <div class="form-group">
             <label for="name">Search By Name</label>
             <input type="text" class="form-control" name="name" id="name" placeholder="Store Name" required>
@@ -66,7 +66,7 @@
         </div>
         <h6 class="divide">------OR------</h6>
         <div>
-        <form class="form-inline" action="/search-stores" method="post">
+        <form class="form-inline" action="/stores/search-by-state" method="post">
           <div class="form-group">
             <label for="state">Search By State&nbsp;</label>
             <select name="state" required>
@@ -93,6 +93,7 @@
       <th>Store Name</th>
       <th>City</th>
       <th>State</th>
+      <th>Update</th>
     </tr>
   </thead>
   <tbody>
@@ -103,6 +104,10 @@
         <td>$name.getName()</td>
         <td>$name.getCity()</td>
         <td>$name.getState()</td>
+        <td>
+          <a href="/"><span class="glyphicon glyphicon-pencil icons" aria-hidden="true"></span></a>&nbsp;
+          <a href="/delete/store/$store.getId()"><span class="glyphicon glyphicon-trash icons" aria-hidden="true"></span></a>
+        </td>
       </tr>
     #end
   </tbody>
