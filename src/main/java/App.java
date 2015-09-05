@@ -57,5 +57,24 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("/delete/store/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer storeId = Integer.parseInt(request.params(":id"));
+      Store deleteStore = Store.find(storeId);
+      deleteStore.delete();
+      response.redirect("/stores");
+      return null;
+    });
+
+    get("/delete/state/store/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer storeId = Integer.parseInt(request.params(":id"));
+      Store deleteStore = Store.find(storeId);
+      deleteStore.delete();
+      response.redirect("/stores/search-by-state");
+      return null;
+    });
+
+
   }
 }
