@@ -49,6 +49,27 @@ public class Store {
     }
   }
 
+   public static List<Store> allByCity() {
+    String sql = "SELECT * FROM stores ORDER BY city;";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Store.class);
+    }
+  }
+
+   public static List<Store> allByState() {
+    String sql = "SELECT * FROM stores ORDER BY state;";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Store.class);
+    }
+  }
+
+   public static List<Store> allById() {
+    String sql = "SELECT * FROM stores ORDER BY id;";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Store.class);
+    }
+  }
+
   public void save() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO stores (name, city, state) VALUES (:name, :city, :state);";
@@ -71,11 +92,13 @@ public class Store {
     }
   }
 
-  public void editStoreName(String name) {
+  public void update(String name, String city, String state) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE stores SET name = :name WHERE id = :id";
+      String sql = "UPDATE stores SET name = :name, city = :city, state = :state WHERE id = :id";
       con.createQuery(sql)
       .addParameter("name", name)
+      .addParameter("city", city)
+      .addParameter("state", state)
       .addParameter("id", id)
       .executeUpdate();
     }
