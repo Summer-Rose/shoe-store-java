@@ -1,0 +1,108 @@
+<div class="jumbotron">
+  <div class="main-title">
+    <h1>Shoe Locator NW</h1>
+  </div>
+</div>
+
+<button type="button" class="btn btn-default btn-sm btn-inline" data-toggle="modal" data-target="#addStore">
+  Add Store
+</button>
+<button type="button" class="btn btn-default btn-sm btn-inline" data-toggle="modal" data-target="#searchStores">
+  Search Stores
+</button>
+<!--Add Store Modal-->
+<div class="modal fade" id="addStore" tabindex="-3" role="dialog" aria-labelledby="addStore">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Store</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline" action="/add-store" method="post">
+          <div class="form-group">
+            <label class="sr-only" for="name">Store Name</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Store Name" required>
+          </div>
+          <div class="form-group">
+            <label class="sr-only" for="city">City</label>
+            <input type="text" class="form-control" name="city" id="city" placeholder="City" required>
+          </div>
+          <div class="form-group">
+            <select name="state" required>
+              <option value="OR">OR</option>
+              <option value="WA">WA</option>
+              <option value="ID">ID</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default">Add Store</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Search Modal-->
+<div class="modal fade" id="searchStores" tabindex="-3" role="dialog" aria-labelledby="searchStores">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Search Stores</h4>
+      </div>
+      <div class="modal-body row-fluid">
+
+        <div>
+        <form class="form-inline" action="/stores/search-by-name" method="get">
+          <div class="form-group">
+            <label for="name">Search By Name</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Store Name" required>
+          </div>
+          <button type="submit" class="btn btn-default">Search</button>
+        </form>
+        </div>
+        <h6 class="divide">------OR------</h6>
+        <div>
+        <form class="form-inline" action="/stores/search-by-state" method="get">
+          <div class="form-group">
+            <label for="state">Search By State&nbsp;</label>
+            <select name="state" required>
+              <option value="OR">OR</option>
+              <option value="WA">WA</option>
+              <option value="ID">ID</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default btn-sm">Search</button>
+        </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered stores">
+  <thead>
+    <tr>
+      <th>#&nbsp;<a href="/stores/order-by-id"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></th>
+      <th>Store Name&nbsp;<a href="/stores"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></th>
+      <th>City&nbsp;<a href="/stores/order-by-city"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></th>
+      <th>State&nbsp;<a href="/stores/order-by-state"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a></th>
+      <th>Update</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($store in $stores)
+
+      <tr>
+        <td>$store.getId()</td>
+        <td>$store.getName()</td>
+        <td>$store.getCity()</td>
+        <td>$store.getState()</td>
+        <td>
+          <a href="/"><span class="glyphicon glyphicon-pencil icons" aria-hidden="true"></span></a>&nbsp;
+          <a href="/delete/store/$store.getId()"><span class="glyphicon glyphicon-trash icons" aria-hidden="true"></span></a>
+        </td>
+      </tr>
+    #end
+  </tbody>
+</table>
