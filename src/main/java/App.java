@@ -75,6 +75,47 @@ public class App {
       return null;
     });
 
+    get("/stores/order-by-city", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("stores", Store.allByCity());
+      model.put("template", "templates/stores-order-by-city.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/stores/order-by-state", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("stores", Store.allByState());
+      model.put("template", "templates/stores-order-by-state.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/stores/order-by-id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("stores", Store.allById());
+      model.put("template", "templates/stores-order-by-id.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/store/edit/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer storeId = Integer.parseInt(request.params("id"));
+      Store editStore = Store.find(storeId);
+      model.put("store", editStore);
+      model.put("stores", Store.all());
+      return new ModelAndView(model, "templates/edit-store.vtl");
+    }, new VelocityTemplateEngine());
+
+    post("/store/submit-update/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer storeId = Integer.parseInt(request.params(":id"));
+      Store editStore = Store.find(storeId);
+      String name = request.queryParams("name");
+      String city = request.queryParams("city");
+      String state = request.queryParams("state");
+      editStore.update(name, city, state);
+      response.redirect("/stores");
+      return null;
+    });
 
   }
 }
