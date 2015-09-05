@@ -25,22 +25,26 @@ body {
   margin-top: 20px;
 }
 
-
+/*Table Color*/
  th {
   background-color: #AAB3A1;
  }
-
 td {
   background-color: #929A8A;
   color: #eee;
 }
 
+/*Table Hover Color*/
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: #A1B193;
 }
 
 /*Search Stores Modal Styles*/
-
 .divide {
   padding: 20px;
+}
+
+/*Glyphicons Color*/
+.icons {
+  color: black;
 }
