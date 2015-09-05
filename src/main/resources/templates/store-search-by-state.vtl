@@ -93,6 +93,7 @@
       <th>Store Name</th>
       <th>City</th>
       <th>State</th>
+      <th>Update</th>
     </tr>
   </thead>
   <tbody>
@@ -102,6 +103,10 @@
         <td>$store.getName()</td>
         <td>$store.getCity()</td>
         <td>$store.getState()</td>
+        <td>
+          <a href="/"><span class="glyphicon glyphicon-pencil icons" aria-hidden="true"></span></a>&nbsp;
+          <a href="/delete/state/store/$store.getId()"><span class="glyphicon glyphicon-trash icons" aria-hidden="true"></span></a>
+        </td>
       </tr>
     #end
   </tbody>
