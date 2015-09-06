@@ -145,6 +145,32 @@ public class App {
       return null;
     });
 
+    get("/store/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer storeId = Integer.parseInt(request.params(":id"));
+      Store store = Store.find(storeId);
+      List<Brand> storebrands = store.getBrands();
+      model.put("store", store);
+      model.put("brands", Brand.all());
+      model.put("storebrands", storebrands);
+      model.put("template", "templates/store.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/store/:id/add-brand", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer storeId = Integer.parseInt(request.params(":id"));
+      Store store = Store.find(storeId);
+      Integer brandId = Integer.parseInt(request.queryParams("brand"));
+      Brand brand = Brand.find(brandId);
+      store.addBrand(brand);
+      response.redirect("/store/" + storeId);
+      return null;
+    });
+
+
+
+
     //View All Brands
     get("/brands", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -225,7 +251,40 @@ public class App {
       return null;
     });
 
+      get("/brand/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer brandId = Integer.parseInt(request.params(":id"));
+      Brand brand = Brand.find(brandId);
+      List<Store> storebrands = brand.getStores();
+      model.put("brand", brand);
+      model.put("stores", Store.all());
+      model.put("storebrands", storebrands);
+      model.put("template", "templates/brand.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
+    post("/brand/:id/add-store", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer brandId = Integer.parseInt(request.params(":id"));
+      Brand brand = Brand.find(brandId);
+      Integer storeId = Integer.parseInt(request.queryParams("store"));
+      Store store = Store.find(storeId);
+      brand.addStore(store);
+      response.redirect("/brand/" + brandId);
+      return null;
+    });
+
+    post("/delete/store/:storeid/brand/:brandid", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer brandId = Integer.parseInt(request.params(":brandid"));
+      
+      Brand brand = Brand.find(brandId);
+      Integer storeId = Integer.parseInt(request.queryParams("store"));
+      Store store = Store.find(storeId);
+      brand.addStore(store);
+      response.redirect("/brand/" + brandId);
+      return null;
+    });
 
   }
 }
