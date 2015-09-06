@@ -31,11 +31,18 @@ import java.util.ArrayList;
   	}
 
   	public static List<Brand> all() {
-    	String sql = "SELECT * FROM brands;";
+    	String sql = "SELECT * FROM brands ORDER BY name;";
     	try (Connection con = DB.sql2o.open()) {
       		return con.createQuery(sql).executeAndFetch(Brand.class);
     	}
   	}
+
+    public static List<Brand> allById() {
+    String sql = "SELECT * FROM brands ORDER BY id;";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Brand.class);
+    }
+  }
 
  	public void save() {
     try(Connection con = DB.sql2o.open()) {
@@ -57,7 +64,7 @@ import java.util.ArrayList;
     	}
   	}
 
-  	public void editBrandName(String name) {
+  	public void update(String name) {
     	try(Connection con = DB.sql2o.open()) {
       		String sql = "UPDATE brands SET name = :name WHERE id = :id";
       		con.createQuery(sql)
@@ -106,5 +113,16 @@ import java.util.ArrayList;
       }
       return stores;
     }
+  }
+
+    public static List<Brand> searchByName(String name) {
+    String lowerCaseSearch = name.toLowerCase();
+    String sql = "SELECT * FROM brands WHERE LOWER (brands.name) LIKE '%" + lowerCaseSearch + "%' ORDER BY name";
+    List<Brand> brandResults;
+    try (Connection con = DB.sql2o.open()) {
+      brandResults = con.createQuery(sql)
+        .executeAndFetch(Brand.class);
+    }
+    return brandResults;
   }
   }
