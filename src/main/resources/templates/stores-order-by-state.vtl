@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <div class="main-title">
-    <h1>Shoe Locator NW</h1>
+    <h1>Find a Store</h1>
   </div>
 </div>
 
@@ -92,14 +92,13 @@
   </thead>
   <tbody>
     #foreach ($store in $stores)
-
       <tr>
         <td>$store.getId()</td>
         <td>$store.getName()</td>
         <td>$store.getCity()</td>
         <td>$store.getState()</td>
         <td>
-          <a href="/"><span class="glyphicon glyphicon-pencil icons" aria-hidden="true"></span></a>&nbsp;
+          <a href="/store/edit/$store.getId()"><span class="glyphicon glyphicon-pencil icons" aria-hidden="true"></span></a></form>&nbsp;
           <a href="/delete/store/$store.getId()"><span class="glyphicon glyphicon-trash icons" aria-hidden="true"></span></a>
         </td>
       </tr>
