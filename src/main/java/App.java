@@ -13,6 +13,7 @@ public class App {
     	staticFileLocation("/public");
     	String layout = "templates/layout.vtl";
 
+    //Main Page
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("stores", Store.all());
@@ -21,6 +22,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //View All Stores
     get("/stores", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("stores", Store.all());
@@ -28,6 +30,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Add new store, redirect to All Stores
     post("/add-store", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String name = request.queryParams("name");
@@ -39,6 +42,7 @@ public class App {
       return null;
     });
 
+    //Display Store Search-by-name results
     get("/stores/search-by-name", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String name = request.queryParams("name");
@@ -48,6 +52,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Display searh-by-state results
     get("/stores/search-by-state", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String state = request.queryParams("state");
@@ -57,6 +62,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Delete selected store and redirect to View Stores
     get("/delete/store/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer storeId = Integer.parseInt(request.params(":id"));
@@ -66,15 +72,33 @@ public class App {
       return null;
     });
 
-    get("/delete/state/store/:id", (request, response) -> {
+    //Delete selected store and stay on search by state page
+    get("/delete/state/:state/store/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer storeId = Integer.parseInt(request.params(":id"));
       Store deleteStore = Store.find(storeId);
       deleteStore.delete();
-      response.redirect("/stores/search-by-state");
-      return null;
-    });
+      String state = request.params(":state");
+      List<Store> stateResults = Store.searchByState(state);
+      model.put("stateResults", stateResults);
+      model.put("template", "templates/store-search-by-state.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
+     //Delete selected store and stay on search by name page
+    get("/delete/name/:name/store/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer storeId = Integer.parseInt(request.params(":id"));
+      Store deleteStore = Store.find(storeId);
+      deleteStore.delete();
+      String name = request.params(":name");
+      List<Store> nameResults = Store.searchByName(name);
+      model.put("nameResults", nameResults);
+      model.put("template", "templates/store-search-by-name.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    //Display stores is order by city
     get("/stores/order-by-city", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("stores", Store.allByCity());
@@ -82,6 +106,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Display stores in order by state
     get("/stores/order-by-state", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("stores", Store.allByState());
@@ -89,6 +114,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //display stores is order by id
     get("/stores/order-by-id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("stores", Store.allById());
@@ -96,6 +122,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Select store id and bring to edit modal
     get("/store/edit/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer storeId = Integer.parseInt(request.params("id"));
@@ -105,6 +132,7 @@ public class App {
       return new ModelAndView(model, "templates/edit-store.vtl");
     }, new VelocityTemplateEngine());
 
+    //On submit edit, reroute to View Stores
     post("/store/submit-update/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer storeId = Integer.parseInt(request.params(":id"));
@@ -116,6 +144,88 @@ public class App {
       response.redirect("/stores");
       return null;
     });
+
+    //View All Brands
+    get("/brands", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("brands", Brand.all());
+      model.put("template", "templates/brands.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    //Add new brand, redirect to All Stores
+    post("/add-brand", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String name = request.queryParams("name");
+      Brand newBrand = new Brand(name);
+      newBrand.save();
+      response.redirect("/brands");
+      return null;
+    });
+
+     //Display Brand Search-by-name results
+    get("/brands/search-by-name", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String name = request.queryParams("name");
+      List<Brand> nameResults = Brand.searchByName(name);
+      model.put("nameResults", nameResults);
+      model.put("template", "templates/brand-search-by-name.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+      //Delete selected brand and redirect to View Brands
+    get("/delete/brand/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer brandId = Integer.parseInt(request.params(":id"));
+      Brand deleteBrand = Brand.find(brandId);
+      deleteBrand.delete();
+      response.redirect("/brands");
+      return null;
+    });
+
+    //Delete selected brand and stay on search by name page
+    get("/delete/name/:name/brand/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer brandId = Integer.parseInt(request.params(":id"));
+      Brand deleteBrand = Brand.find(brandId);
+      deleteBrand.delete();
+      String name = request.params(":name");
+      List<Brand> nameResults = Brand.searchByName(name);
+      model.put("nameResults", nameResults);
+      model.put("template", "templates/brand-search-by-name.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+     //display brands is order by id
+    get("/brands/order-by-id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("brands", Brand.allById());
+      model.put("template", "templates/brands-order-by-id.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+      //Select brand id and bring to edit modal
+    get("/brand/edit/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer brandId = Integer.parseInt(request.params("id"));
+      Brand editBrand = Brand.find(brandId);
+      model.put("brand", editBrand);
+      model.put("brands", Brand.all());
+      return new ModelAndView(model, "templates/edit-brand.vtl");
+    }, new VelocityTemplateEngine());
+
+     //On submit edit, reroute to View Brands
+    post("/brand/submit-update/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer brandId = Integer.parseInt(request.params(":id"));
+      Brand editBrand = Brand.find(brandId);
+      String name = request.queryParams("name");
+      editBrand.update(name);
+      response.redirect("/brands");
+      return null;
+    });
+
+
 
   }
 }
