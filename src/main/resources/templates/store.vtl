@@ -1,0 +1,57 @@
+<div class="jumbotron">
+  <div class="main-title">
+    <h1>$store.getName()</h1>
+  </div>
+</div>
+
+<a type="button" class="btn btn-default btn-sm btn-inline" href="/stores">View All Stores</a>
+<button type="button" class="btn btn-default btn-sm btn-inline" data-toggle="modal" data-target="#addBrand">
+  Add Brand
+</button>
+
+
+<!--Add Brand Modal-->
+<div class="modal fade" id="addBrand" tabindex="-3" role="dialog" aria-labelledby="addBrand">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Brand to $store.getName()</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline" action="/store/$store.getId()/add-brand" method="post">
+          <div class="form-group">
+            <select name="brand" required>
+              #foreach ($brand in $brands)
+              <option value="$brand.getId()">$brand.getName()</option>
+              #end
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default">Add Brand</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<h3>Brands That $store.getName() Carries</h3>
+<table class="table table-hover table-bordered stores">
+  <thead>
+    <tr>
+      <th>#&nbsp;</th>
+      <th>Brand Name&nbsp;</th>
+      <th>Update</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($storebrand in $storebrands)
+      <tr>
+        <td>$storebrand.getId()</td>
+        <td><a href="/brand/$storebrand.getId()">$storebrand.getName()</a></td>
+        <td>
+          <a href="/"><span class="glyphicon glyphicon-pencil icons" aria-hidden="true"></span></a></form>&nbsp;
+          <a href="/"><span class="glyphicon glyphicon-trash icons" aria-hidden="true"></span></a>
+        </td>
+      </tr>
+    #end
+  </tbody>
+</table>
