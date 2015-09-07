@@ -33,15 +33,15 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Stores<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/stores">View/Find Stores</a></li>
-                            <li><a href="#">Add A Store</a></li>
+                            <li><a href="/stores">View &amp; Find Stores</a></li>
+                            <li><a href="#">Search Stores by Brand</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Brands<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">View/Find Brands</a></li>
-                            <li><a href="#">Add A Brand</a></li>
+                            <li><a href="#">View &amp; Find Brands</a></li>
+                            <li><a href="#">Search Brands by Store</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -188,7 +188,7 @@
 
       <tr>
         <td>$store.getId()</td>
-        <td>$store.getName()</td>
+        <td><a href="/store/$store.getId()"><span class="glyphicon glyphicon-chevron-right"></span></a>&nbsp;$store.getName()</td>
         <td>$store.getCity()</td>
         <td>$store.getState()</td>
         <td>
