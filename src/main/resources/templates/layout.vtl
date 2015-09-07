@@ -28,15 +28,15 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Stores<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/stores">View &mp; Find Stores</a></li>
-                            <li><a href="#">Add A Store</a></li>
+                            <li><a href="/stores">View &amp; Find Stores</a></li>
+                            <li><a data-toggle="modal" data-target="#searchStoreByBrand">Search Stores by Brand</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Brands<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/brands">View &mp; Find Brands</a></li>
-                            <li><a href="#">Add A Brand</a></li>
+                            <li><a href="/brands">View &amp; Find Brands</a></li>
+                            <li><a data-toggle="modal" data-target="#searchBrandByStore">Search Brands by Store</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -50,6 +50,53 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+
+
+    
+<div class="modal fade" id="searchStoreByBrand" tabindex="-3" role="dialog" aria-labelledby="searchStoreByBrand">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Select a Brand</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline" action="/store-by-brand">
+          <div class="form-group">
+            <select name="brand" required>
+              #foreach ($brand in $brands)
+              <option value="$brand.getId()">$brand.getName()</option>
+              #end
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default">Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="searchBrandByStore" tabindex="-3" role="dialog" aria-labelledby="searchBrandByStore">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Select a Store</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline" action="/brand-by-store">
+          <div class="form-group">
+            <select name="store" required>
+              #foreach ($store in $stores)
+              <option value="$store.getId()">$store.getName()</option>
+              #end
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default">Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
         <div class="container">
 
