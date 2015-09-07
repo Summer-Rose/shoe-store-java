@@ -45,11 +45,11 @@
     #foreach ($storebrand in $storebrands)
       <tr>
         <td>$storebrand.getId()</td>
-        <td><a href="/store/$storebrand.getId()">$storebrand.getName()</a></td>
+        <td><a href="/store/$storebrand.getId()"><span class="glyphicon glyphicon-chevron-right"></span></a>&nbsp;$storebrand.getName()</td>
         <td>$storebrand.getCity()</td>
         <td>$storebrand.getState()</td>
         <td>
-          <a href="/delete/store/$storebrand.getId()/brand/$brand.getId()"><span class="glyphicon glyphicon-trash icons" aria-hidden="true"></span></a>
+          <a href="/delete/store/$storebrand.getId()/brand/$brand.getId()" method="post"><span class="glyphicon glyphicon-trash icons" aria-hidden="true"></span></a>
         </td>
       </tr>
     #end
