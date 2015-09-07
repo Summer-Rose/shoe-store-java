@@ -100,7 +100,7 @@
     #foreach ($store in $stateResults)
       <tr>
         <td>$store.getId()</td>
-        <td>$store.getName()</td>
+        <td><a href="/store/$store.getId()"><span class="glyphicon glyphicon-chevron-right"></span></a>&nbsp;$store.getName()</td>
         <td>$store.getCity()</td>
         <td>$store.getState()</td>
         <td>
