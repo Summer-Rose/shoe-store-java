@@ -8,6 +8,11 @@
 
 Shoe Locator NW is a web application designed to sort lists of stores by the brands they carry and brands by the stores that carry them. Users can search for brands or stores, sort lists of data by name, id #, etc., edit existing entries, delete entries and add new stores or brands. 
 
+## Technologies Used
+
+jUnit ver 4.+ Fluentlenium ver 0.10.3 Veloctiy ver 1.7 Java HTML5 CSS3 Bootstrap ver 3.2.0
+
+
 ## Setup
 
 Clone this repository:
