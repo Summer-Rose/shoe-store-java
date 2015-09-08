@@ -1,4 +1,4 @@
-# Shoe Store
+# Shoe Locator NW
 
 ##### Epicodus Week Four Code Review, 09/3/2015
 
@@ -6,6 +6,7 @@
 
 ## Description
 
+Shoe Locator NW is a web application designed to sort lists of stores by the brands they carry and brands by the stores that carry them. Users can search for brands or stores, sort lists of data by name, id #, etc., edit existing entries, delete entries and add new stores or brands. 
 
 ## Setup
 
@@ -21,10 +22,10 @@ Open terminal and run Postgres:
 $ postgres
 ```
 
-Open a new tab in terminal by pressing ⌘t and create `registrar` database:
+Open a new tab in terminal by pressing ⌘t and create `shoe_stores` database:
 ```
 $ psql
-$ CREATE DATABASE shoe_store;
+$ CREATE DATABASE shoe_stores;
 $ psql shoe_stores < shoe_stores.sql
 ```
 
