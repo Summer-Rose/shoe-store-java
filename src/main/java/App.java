@@ -13,8 +13,6 @@ public class App {
     	staticFileLocation("/public");
     	String layout = "templates/layout.vtl";
 
-
-
     //Main Page
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -32,13 +30,32 @@ public class App {
       return null;
     });
 
-    //search store by brand
+    //Search store by brand
      get("/store-by-brand", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer brandId = Integer.parseInt(request.queryParams("brand"));
       response.redirect("/brand/" + brandId);
       return null;
     });
+
+    //Site Search Results Page
+    get("/search-results", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String search = request.queryParams("main-search");
+      List<Store> storeResults = Store.searchByName(search);
+      List<Brand> brandResults = Brand.searchByName(search);
+      model.put("storeResults", storeResults);
+      model.put("brandResults", brandResults);
+      model.put("search", search);
+      model.put("stores", Store.all());
+      model.put("brands", Brand.all());
+      model.put("template", "templates/search-results.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+     /////////////////
+        //Stores//
+     /////////////////
 
     //View All Stores
     get("/stores", (request, response) -> {
@@ -177,6 +194,7 @@ public class App {
       return null;
     });
 
+    //Individual Store page - displays corresponding brands
     get("/store/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer storeId = Integer.parseInt(request.params(":id"));
@@ -190,6 +208,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Add new brand to store
     post("/store/:id/add-brand", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer storeId = Integer.parseInt(request.params(":id"));
@@ -201,6 +220,7 @@ public class App {
       return null;
     });
 
+    //Delete brand from store
     get("/delete/brand/:brandid/store/:storeid", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer storeId = Integer.parseInt(request.params(":storeid"));
@@ -211,8 +231,9 @@ public class App {
       return null;
     });
 
-
-
+    ////////////////
+       //Brands//
+    ////////////////
 
     //View All Brands
     get("/brands", (request, response) -> {
@@ -301,6 +322,7 @@ public class App {
       return null;
     });
 
+    //View individual brand page and corresponding stores
       get("/brand/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer brandId = Integer.parseInt(request.params(":id"));
@@ -314,6 +336,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Add store to brand page
     post("/brand/:id/add-store", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer brandId = Integer.parseInt(request.params(":id"));
@@ -325,6 +348,7 @@ public class App {
       return null;
     }); 
 
+    //Delete store from brand page
     get("/delete/store/:storeid/brand/:brandid", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Integer brandId = Integer.parseInt(request.params(":brandid"));
